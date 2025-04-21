@@ -1,0 +1,21 @@
+mysql:
+  dns: root:123456@tcp(127.0.0.1:3306)/ginchat?charset=utf8mb4&parseTime=True&loc=Local
+redis:
+  addr: "127.0.0.1:6379"
+  password: ""
+  DB: 0
+  poolsize: 30
+  minIdleConn: 30
+oss:
+  Endpoint: "oss-cn-hangzhou.aliyuncs.com"
+  AccessKeyId: ${AccessKeyId}
+  AccessKeySecret: ${AccessKeySecret}
+  Bucket : "ginchat-cp"
+timeout:
+  DelayHeartbeat: 3   #首次延迟多久检测，秒
+  HeartbeatHz: 30   # 检测频率，秒
+  HeartbeatMaxTime: 30000  #最大超时，就下线
+  RedisOnlineTime: 4  #缓存的在线用户时长   单位H
+port:
+  server: ":8081"
+  udp: 3000
