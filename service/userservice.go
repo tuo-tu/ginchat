@@ -41,13 +41,23 @@ func GetUserList(c *gin.Context) {
 // @Success 200 {string} json{"code","message"}
 // @Router /user/createUser [get]
 func CreateUser(c *gin.Context) {
-	//user.Name = c.Query("name")
-	//password := c.Query("password")
-	//repassword := c.Query("repassword")
+
+	type CreateUserRequest struct {
+		Name       string `form:"name" binding:"required"`
+		Password   string `form:"password" binding:"required,min=6"`
+		Repassword string `form:"repassword" binding:"required,eqfield=Password"`
+	}
+
+	var req CreateUserRequest
+	if err := c.ShouldBind(&req); err != nil {
+		c.JSON(400, gin.H{"code": -1, "message": err.Error()})
+		return
+	}
+
 	user := models.UserBasic{}
-	user.Name = c.Request.FormValue("name")
-	password := c.Request.FormValue("password")
-	repassword := c.Request.FormValue("Identity")
+	user.Name = req.Name
+	password := req.Password
+	repassword := req.Repassword
 	if user.Name == "" || password == "" || repassword == "" {
 		c.JSON(200, gin.H{
 			"code":    -1, //0成功；-1失败
